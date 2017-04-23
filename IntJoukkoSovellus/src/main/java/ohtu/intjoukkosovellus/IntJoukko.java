@@ -129,15 +129,10 @@ public class IntJoukko {
 
     public static IntJoukko erotus(IntJoukko a, IntJoukko b) {
         IntJoukko z = new IntJoukko();
-        int[] aTaulu = a.toIntArray();
-        int[] bTaulu = b.toIntArray();
-        for (int i = 0; i < aTaulu.length; i++) {
-            z.lisaa(aTaulu[i]);
-        }
-        for (int i = 0; i < bTaulu.length; i++) {
+        lisaaJoukko(z, a);
+        for (int i : b.toIntArray()) {
             z.poista(i);
         }
-
         return z;
     }
 
