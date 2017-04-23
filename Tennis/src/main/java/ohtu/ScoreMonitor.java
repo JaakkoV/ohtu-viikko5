@@ -1,65 +1,32 @@
 package ohtu;
 
+import java.util.HashMap;
+
 public class ScoreMonitor {
 
-    public static String printScore(Player first, Player second) {
-        String score = "";
-        int tempScore = 0;
-        if (first.getPoints() == second.getPoints()) {
-            switch (first.getPoints()) {
-                case 0:
-                    score = "Love-All";
-                    break;
-                case 1:
-                    score = "Fifteen-All";
-                    break;
-                case 2:
-                    score = "Thirty-All";
-                    break;
-                case 3:
-                    score = "Forty-All";
-                    break;
-                default:
-                    score = "Deuce";
-                    break;
+    private static final HashMap<Integer, String> pointsToText = createPointsToText();
 
-            }
-        } else if (first.getPoints() >= 4 || second.getPoints() >= 4) {
-            int minusResult = first.getPoints() - second.getPoints();
-            if (minusResult == 1) {
-                score = "Advantage player1";
-            } else if (minusResult == -1) {
-                score = "Advantage player2";
-            } else if (minusResult >= 2) {
-                score = "Win for player1";
-            } else {
-                score = "Win for player2";
-            }
+    private static HashMap<Integer, String> createPointsToText() {
+        HashMap<Integer, String> pointsText = new HashMap<>();
+        pointsText.put(0, "Love");
+        pointsText.put(1, "Fifteen");
+        pointsText.put(2, "Thirty");
+        pointsText.put(3, "Forty");
+        return pointsText;
+    }
+
+    public static String printScore(Player first, Player second) {
+        if (first.getPoints() == second.getPoints()) {
+            return (first.getPoints() < 4)
+                    ? pointsToText.get(first.getPoints()) + "-All"
+                    : "Deuce";
+        } else if (first.getPoints()
+                >= 4 || second.getPoints() >= 4) {
+            String lead = first.getPoints() > second.getPoints() ? first.getName() : second.getName();
+            return (Math.abs(first.getPoints() - second.getPoints()) > 1) ? "Win for " + lead : "Advantage " + lead;
         } else {
-            for (int i = 1; i < 3; i++) {
-                if (i == 1) {
-                    tempScore = first.getPoints();
-                } else {
-                    score += "-";
-                    tempScore = second.getPoints();
-                }
-                switch (tempScore) {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
-            }
+            return pointsToText.get(first.getPoints()) + "-" + pointsToText.get(second.getPoints());
         }
-        return score;
     }
 
 }
