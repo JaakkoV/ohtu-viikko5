@@ -27,19 +27,17 @@ public class IntJoukko {
         if (!kuuluu(luku)) {
             ljono[alkioidenLkm] = luku;
             alkioidenLkm++;
-            if (alkioidenLkm == ljono.length) {
-                kasvataTaulukkoa();
-            }
-            return true;
+            return alkioidenLkm == ljono.length ? kasvataTaulukkoa() : false;
         }
         return false;
     }
 
-    private void kasvataTaulukkoa() {
+    private boolean kasvataTaulukkoa() {
         int[] taulukkoOld = new int[ljono.length];
         taulukkoOld = ljono;
         ljono = new int[alkioidenLkm + kasvatuskoko];
         kopioiTaulukko(taulukkoOld, ljono);
+        return true;
     }
 
     public boolean kuuluu(int luku) {
